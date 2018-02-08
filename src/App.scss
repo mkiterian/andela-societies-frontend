@@ -1,3 +1,5 @@
+@import 'assets/scss/_mixins';
+
 .headerBackground {
   position: absolute;
   top: 0;
@@ -36,11 +38,8 @@
 }
 
 .pageContent {
-  width: 90%;
-  margin: auto;
+  @include container;
   min-height: 100vh;
-  box-sizing: border-box;
-  z-index: 5;
 }
 
 .headerWrapper {
