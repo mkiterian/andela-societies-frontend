@@ -4,7 +4,7 @@
 .signInHeader {
   height: 9rem;
   background: $lightAccent;
-  box-shadow: 0 0.4rem 6rem rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0.4rem 16rem rgba(0, 0, 0, 0.05);
 }
 
 .signInHeader .pageContent {
@@ -31,10 +31,10 @@
 .logo__text {
   color: $primary;
   margin-left: 1.6rem;
-  font-size: 2rem;
+  font-size: 2.4rem;
 }
 
-.signInbutton {
+.signInButton {
   box-sizing: border-box;
   width: 23rem;
   height: 5rem;
@@ -52,7 +52,8 @@
 }
 
 .signInButton__logo {
-  height: inherit;
+  box-sizing: border-box;
+  height: 100%;
   width: 5rem;
   background: $lightAccent url(../../assets/images/googleFavicon.png) center/3rem no-repeat;
 }

@@ -17,9 +17,10 @@ export default () => (
           <span className="logo__text">Andela Societies</span>
         </div>
         <div
-          className="signInbutton"
+          className="signInButton"
           role="button"
           aria-label="Sign in with Google"
+          tabIndex="0"
         >
           <div className="signInButton__logo" />
           <span className="signInButton__label">
