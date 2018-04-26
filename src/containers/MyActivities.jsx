@@ -9,6 +9,7 @@ import ActivityCard from '../components/activities/ActivityCard';
 import Stats from '../components/sidebar/Stats';
 import { fetchMyActivities } from '../actions/myActivitiesActions';
 import dateFormatter from '../helpers/dateFormatter';
+import capitizeString from '../helpers/stringFormatter';
 import stats from '../fixtures/stats';
 
 /**
@@ -40,6 +41,15 @@ class MyActivities extends Component {
     requesting: false,
   };
 
+  constructor() {
+    super();
+    this.state = {
+      activities: [],
+      filteredState: [],
+      selectedStatus: 'All',
+      initialStatus: 'All',
+    };
+  }
   /**
    * React component lifecycle method componentDidMount
    * @memberof MyActivities
@@ -48,26 +58,47 @@ class MyActivities extends Component {
     this.props.fetchActivities();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      activities: nextProps.myActivities,
+      filteredState: nextProps.myActivities,
+    });
+  }
+
+  filterActivities = (e) => {
+    const status = capitizeString(e.currentTarget.textContent);
+    const { initialStatus, activities } = this.state;
+    const filteredActivities = activities
+      .filter(activity => capitizeString(activity.status) === status);
+    this.setState({
+      selectedStatus: status,
+      filteredState: status === initialStatus ? activities : filteredActivities,
+    });
+  };
   /**
    * Render MyActivities Page
    * @return {Object} JSX for MyActivities component
    */
   render() {
-    const { myActivities, requesting } = this.props;
-
+    const { requesting } = this.props;
+    const { filteredState, selectedStatus } = this.state;
     return (
       <Page>
         <div className='mainContent'>
           <div className='myActivities'>
-            <PageHeader title='My Activities' />
+            <PageHeader
+              title='My Activities'
+              filterActivities={this.filterActivities}
+              selectedStatus={selectedStatus}
+            />
             <div className='activities'>
               {
                 requesting ?
-                  <h3>Loading ...</h3>
+                  <h3>Loading... </h3>
                   :
                   <MasonryLayout
                     items={
-                      myActivities.map(activity => (
+                      filteredState.map(activity => (
                         <ActivityCard
                           id={activity.id}
                           category={activity.category}
