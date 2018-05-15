@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -10,6 +10,8 @@ import Stats from '../components/sidebar/Stats';
 import stats from '../fixtures/stats';
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import filterActivitiesByStatus from '../helpers/filterActivitiesByStatus';
+import { verifyActivity } from '../actions/verifyActivityActions';
+import filterActivities from '../helpers/filterActivities';
 
 class VerifyActivities extends Component {
   /**
@@ -21,6 +23,10 @@ class VerifyActivities extends Component {
   static propTypes = {
     fetchSocietyInfo: PropTypes.func.isRequired,
     requesting: PropTypes.bool.isRequired,
+    verifyActivity: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
+    }).isRequired,
   }
 
   /**
@@ -54,56 +60,77 @@ class VerifyActivities extends Component {
       this.props.fetchSocietyInfo(this.state.societyName);
     }
   }
+  handleClick = (isApproved, activityId) => {
+    this.props.verifyActivity(isApproved, activityId);
+  }
+
+  /**
+   * Filters state based on the selectedStatus
+   * @memberof MyActivities
+   */
+   filterActivities = (status) => {
+     this.setState({
+       filteredActivities: filterActivities(status, this.state)
+         .filteredActivities,
+       selectedStatus: status,
+     });
+   };
+
 
   /**
    * @name VerifyActivities
    * @summary Renders My activities page
    * @return React node that displays the VerifyActivities page
    */
-  render() {
-    const { activities, showUserDetails } = this.state;
-    const { requesting } = this.props;
-    const hideFilter = true;
-    return (
-      <Page>
-        <div className='mainContent'>
-          <div className='VerifyActivities'>
-            <PageHeader
-              title='Verify Activities'
-              hideFilter={hideFilter}
-            />
-            <div className='activities'>
-              {
-                requesting ?
-                  <h3 className='loader'>Loading... </h3>
-                  :
-                  <MasonryLayout
-                    items={
-                      activities.map(activity => (
-                        <ActivityCard
-                          id={activity.id}
-                          category={activity.category}
-                          date={(activity.date)}
-                          description={activity.activity}
-                          points={activity.points}
-                          status={activity.status}
-                          showUserDetails={showUserDetails}
-                        />
-                      ))
-                    }
-                  />
-              }
-            </div>
-          </div>
-        </div>
-        <aside className='sideContent'>
-          <Stats
-            stats={stats}
-          />
-        </aside>
-      </Page>
-    );
-  }
+   render() {
+     const { activities, showUserDetails } = this.state;
+     const { requesting } = this.props;
+     const hideFilter = true;
+     const page = this.props.history.location.pathname;
+     return (
+       <Page>
+         <div className='mainContent'>
+           <div className='VerifyActivities'>
+             <PageHeader
+               title='Verify Activities'
+               hideFilter={hideFilter}
+             />
+             <div className='activities'>
+               {
+                 requesting ?
+                   <h3 className='loader'>Loading... </h3>
+                   :
+                   <Fragment>
+                     <MasonryLayout
+                       items={
+                         activities.map(activity => (
+                           <ActivityCard
+                             id={activity.id}
+                             category={activity.category}
+                             date={(activity.date)}
+                             description={activity.activity}
+                             points={activity.points}
+                             status={activity.status}
+                             showUserDetails={showUserDetails}
+                             page={page}
+                             handleClick={this.handleClick}
+                           />
+                         ))
+                       }
+                     />
+                   </Fragment>
+               }
+             </div>
+           </div>
+         </div>
+         <aside className='sideContent'>
+           <Stats
+             stats={stats}
+           />
+         </aside>
+       </Page>
+     );
+   }
 }
 
 const mapStateToProps = state => ({
@@ -114,6 +141,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchSocietyInfo: name => dispatch(fetchSocietyInfo(name)),
+  verifyActivity: (isApproved, activityId) => dispatch(verifyActivity(isApproved, activityId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyActivities);
