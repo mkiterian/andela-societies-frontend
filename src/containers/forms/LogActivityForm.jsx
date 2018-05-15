@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SingleInput from '../../common/SingleInput';
 import DateField from '../../common/DateField';
 import Select from '../../common/Select';
-import Buttons from '../../common/Buttons';
+import Button from '../../common/Button';
 import TextArea from '../../common/TextArea';
 
 /**
@@ -72,8 +72,8 @@ class LogActivityForm extends Component {
           placeholder='keep it brief'
         />
         <div>
-          <Buttons name='fellowButtonSubmit' value='Log' className='submitButton' />
-          <Buttons name='fellowButtonCancel' value='Cancel' className='cancelButton' />
+          <Button name='fellowButtonSubmit' value='Log' className='submitButton' />
+          <Button name='fellowButtonCancel' value='Cancel' className='cancelButton' />
         </div>
       </form>
     );

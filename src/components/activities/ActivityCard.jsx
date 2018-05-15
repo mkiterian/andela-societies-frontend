@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropType from 'prop-types';
 
 import Globe from '../svgIcons/activityIcons/Globe';
+import Button from '../../common/Button';
 
 /**
  * @summary Renders an activity card
@@ -30,12 +31,17 @@ class ActivityCard extends Component {
     showUserDetails: PropType.bool,
     showLocation: PropType.bool,
     owner: PropType.string,
+    page: PropType.string,
+    handleClick: PropType.func,
+    id: PropType.string.isRequired,
   };
 
   static defaultProps = {
     showUserDetails: false,
     showLocation: false,
     owner: null,
+    page: '',
+    handleClick: null,
   };
   statuses = ['pending', 'rejected', 'approved', 'in review'];
   /**
@@ -73,6 +79,28 @@ class ActivityCard extends Component {
     );
   }
 
+  renderVerifyButtons() {
+    if (this.props.owner) {
+      return '';
+    }
+    return (
+      <div className='verifyButtons'>
+        <Button
+          name='approve'
+          value='Approve'
+          className='activity-button approved'
+          handleClick={() => this.props.handleClick(true, this.props.id)}
+        />
+        <Button
+          name='reject'
+          value='Reject'
+          className='activity-button rejected'
+          handleClick={() => this.props.handleClick(false, this.props.id)}
+        />
+      </div>
+    );
+  }
+
   render() {
     const {
       category,
@@ -80,6 +108,7 @@ class ActivityCard extends Component {
       description,
       showLocation,
       points,
+      page,
     } = this.props;
     return (
       <div className='activity'>
@@ -105,7 +134,10 @@ class ActivityCard extends Component {
                   Points
                 </span>
             }
-            {this.renderStatus()}
+            {
+              page === '/u/verify-activities' ?
+                this.renderVerifyButtons() : this.renderStatus()
+            }
           </div>
         </div>
       </div>
