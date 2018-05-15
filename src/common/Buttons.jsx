@@ -12,6 +12,7 @@ const Buttons = props => (
       name={props.name}
       className={props.className}
       value={props.value}
+      onClick={props.onClick}
     >
       {props.value}
     </button>

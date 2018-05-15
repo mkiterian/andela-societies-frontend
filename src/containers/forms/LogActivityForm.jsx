@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import SingleInput from '../../common/SingleInput';
 import DateField from '../../common/DateField';
 import Select from '../../common/Select';
 import Buttons from '../../common/Buttons';
 import TextArea from '../../common/TextArea';
-
+import { createActivity } from '../../actions/activityActions';
 /**
    * @name LogActivityForm
    * @summary Returns Form
@@ -29,19 +31,33 @@ class LogActivityForm extends Component {
     super(props);
     this.state = {
       selectValue: '',
+      date: '',
+      description: '',
     };
   }
-  onSubmit = (e) => {
-    e.preventDefault();
-  }
-
   /**
    * @memberOf LogActivityForm
    * change event handler
    * @param {Event} event - change event on select input
    */
   handleChange = (event) => {
-    this.setState({ selectValue: event.target.value });
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handleAddEvent = (event) => {
+    event.preventDefault();
+    const { selectValue, date, description } = this.state;
+    const activity = {
+      activityId: selectValue,
+      date,
+      description,
+    };
+    this.props.createActivity(activity);
+  }
+
+  cancelModal = (event) => {
+    event.preventDefault();
+    this.props.closeModal();
   }
 
   render() {
@@ -49,16 +65,22 @@ class LogActivityForm extends Component {
     const { categories } = this.props;
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form>
         <div className='titleForm'>Log an Activity</div>
-        <DateField />
+        <DateField
+          handleChange={this.handleChange}
+          value={this.state.date}
+        />
+        <span style={{ color: 'red' }}>  error </span>
         <Select
-          name='fellowActivities'
+          name='selectValue'
           placeholder='Select Category'
           options={categories}
           title='Activity Category'
+          value={this.state.selectValue}
           handleChange={this.handleChange}
         />
+        <span style={{ color: 'red' }}>  error </span>
         {
           selectValue === 'eef0e594-43cd-11e8-87a7-9801a7ae0329' ?
             <SingleInput type='number' name='text' title='# of interviewees' /> : ''
@@ -68,16 +90,33 @@ class LogActivityForm extends Component {
           title='Description'
           rows={5}
           resize={false}
-          name='Description'
+          name='description'
           placeholder='keep it brief'
+          handleChange={this.handleChange}
+          value={this.state.description}
         />
+        <span style={{ color: 'red' }}>  error </span>
         <div>
-          <Buttons name='fellowButtonSubmit' value='Log' className='submitButton' />
-          <Buttons name='fellowButtonCancel' value='Cancel' className='cancelButton' />
+          <Buttons
+            name='fellowButtonSubmit'
+            value='Log'
+            className='submitButton'
+            onClick={this.handleAddEvent}
+          />
+          <Buttons
+            name='fellowButtonCancel'
+            value='Cancel'
+            className='cancelButton'
+            onClick={this.cancelModal}
+          />
         </div>
       </form>
     );
   }
 }
 
-export default LogActivityForm;
+const mapDispatchToProps = dispatch => ({
+  createActivity: activity => dispatch(createActivity(activity)),
+});
+
+export default connect(null, mapDispatchToProps)(LogActivityForm);

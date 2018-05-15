@@ -16,8 +16,8 @@ const TextArea = props => (
       style={props.resize ? null : { resize: 'none' }}
       name={props.name}
       rows={props.rows}
-      value={props.content}
       placeholder={props.placeholder}
+      onChange={props.handleChange}
       />
   </div>
 );
@@ -27,7 +27,7 @@ const TextArea = props => (
     * @param {Object} propTypes - React PropTypes
     * @property {String} name - The name of the textArea
     *@property {String} title - The title of the label
-    *@property {String} name - The name for the textarea 
+    *@property {String} name - The name for the textarea
     *@property {String} resize - whether the textarea should be fixed or resizable
     *@property {String} placehold - the placeholder text
   */
@@ -38,4 +38,4 @@ TextArea.propTypes = {
   resize: PropTypes.bool.isRequired,
   placeholder: PropTypes.string.isRequired,
 };
-export default TextArea; 
+export default TextArea;

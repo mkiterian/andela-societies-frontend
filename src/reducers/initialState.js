@@ -4,6 +4,7 @@ const initialState = {
     requesting: false,
     failed: false,
     activities: [],
+    error: {},
   },
   societyInfo: {
     requesting: false,
