@@ -1,23 +1,18 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import LogActivityForm from '../../../src/containers/forms/LogActivityForm';
 import categories from '../../../src/fixtures/categories';
 
+
 describe('<LogActivityForm />', () => {
-  const wrapper = shallow(<LogActivityForm categories={[]} />);
-
+  const wrapper = shallow(
+		<LogActivityForm.WrappedComponent
+		  categories={categories}
+		/>
+  );
   it('should render withour crashing', () => {
-    expect(wrapper).toHaveLength(1);
+      expect(wrapper).toHaveLength(1);
   });
-
-  it('should render without crashing', () => {
-    const mounted = mount.bind(
-      null,
-      <LogActivityForm categories={[]} />,
-    );
-    expect(mounted).not.toThrow();
-  });
-
   it('should show the <DateField/> component when it has loaded', () => {
     expect(wrapper.find('DateField').length).toEqual(1);
   });

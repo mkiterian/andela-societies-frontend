@@ -8,6 +8,8 @@ import Select from '../../common/Select';
 import Buttons from '../../common/Buttons';
 import TextArea from '../../common/TextArea';
 import { createActivity } from '../../actions/activityActions';
+import validateFormFields from '../../helpers/validate';
+import capitalizeString from '../../helpers/stringFormatter';
 /**
    * @name LogActivityForm
    * @summary Returns Form
@@ -30,9 +32,10 @@ class LogActivityForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectValue: '',
+      activityId: '',
       date: '',
       description: '',
+      errors: [],
     };
   }
   /**
@@ -46,18 +49,34 @@ class LogActivityForm extends Component {
 
   handleAddEvent = (event) => {
     event.preventDefault();
-    const { selectValue, date, description } = this.state;
+    const { activityId, date, description } = this.state;
     const activity = {
-      activityId: selectValue,
+      activityId,
       date,
       description,
     };
-    this.props.createActivity(activity);
+    this.setState({
+      errors: validateFormFields(activity),
+    }, function () {
+      if (this.state.errors.length === 0) {
+        this.props.createActivity(activity);
+      }
+    });
   }
 
-  cancelModal = (event) => {
+  cancelModal = event => {
     event.preventDefault();
     this.props.closeModal();
+  }
+
+  renderValidationError = (field, replaceWord) => {
+    if (this.state.errors.indexOf(field) >= 0) {
+      return (
+        <span className='validate__errors'>
+          {capitalizeString(replaceWord || field)} is required.
+        </span>
+      );
+    }
   }
 
   render() {
@@ -71,16 +90,16 @@ class LogActivityForm extends Component {
           handleChange={this.handleChange}
           value={this.state.date}
         />
-        <span style={{ color: 'red' }}>  error </span>
+        {this.renderValidationError('date')}
         <Select
-          name='selectValue'
+          name='activityId'
           placeholder='Select Category'
           options={categories}
           title='Activity Category'
           value={this.state.selectValue}
           handleChange={this.handleChange}
         />
-        <span style={{ color: 'red' }}>  error </span>
+        {this.renderValidationError('activityId', 'Category')}
         {
           selectValue === 'eef0e594-43cd-11e8-87a7-9801a7ae0329' ?
             <SingleInput type='number' name='text' title='# of interviewees' /> : ''
@@ -95,7 +114,7 @@ class LogActivityForm extends Component {
           handleChange={this.handleChange}
           value={this.state.description}
         />
-        <span style={{ color: 'red' }}>  error </span>
+        {this.renderValidationError('description')}
         <div>
           <Buttons
             name='fellowButtonSubmit'

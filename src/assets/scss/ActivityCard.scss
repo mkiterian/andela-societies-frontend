@@ -91,6 +91,12 @@
   margin-right: 1rem;
 }
 
+.validate__errors {
+  font-size: 1.2rem;
+  margin-left: 29%;
+  color: red;
+}
+
 .activity__status--inReview::before {
   background-color: #eee;
 }
