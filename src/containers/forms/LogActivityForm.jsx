@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import SnackBar from '../../components/notifications/SnackBar';
 import SingleInput from '../../common/SingleInput';
 import DateField from '../../common/DateField';
 import Select from '../../common/Select';
@@ -10,6 +11,7 @@ import TextArea from '../../common/TextArea';
 import { createActivity } from '../../actions/activityActions';
 import validateFormFields from '../../helpers/validate';
 import capitalizeString from '../../helpers/stringFormatter';
+
 /**
    * @name LogActivityForm
    * @summary Returns Form
@@ -23,6 +25,24 @@ class LogActivityForm extends Component {
   */
   static propTypes = {
     categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    closeModal: PropTypes.func.isRequired,
+    createActivity: PropTypes.func.isRequired,
+  };
+
+  static getDerivedStateFromProps = (nextProps) => {
+    // clear form fields if activity was logged successfully
+    if (nextProps.message && nextProps.message.type === 'success') {
+      return {
+        activityId: '',
+        date: '',
+        description: '',
+        errors: [],
+        message: nextProps.message,
+      };
+    }
+    return {
+      message: nextProps.message,
+    };
   };
 
   /**
@@ -36,8 +56,10 @@ class LogActivityForm extends Component {
       date: '',
       description: '',
       errors: [],
+      message: null,
     };
   }
+
   /**
    * @memberOf LogActivityForm
    * change event handler
@@ -57,30 +79,46 @@ class LogActivityForm extends Component {
     };
     this.setState({
       errors: validateFormFields(activity),
-    }, function () {
+    }, () => {
       if (this.state.errors.length === 0) {
         this.props.createActivity(activity);
       }
     });
   }
 
-  cancelModal = event => {
+  /**
+   * @name resetState
+   * @summary resets state to clear form fields and error messages
+   */
+  resetState = () => {
+    this.setState({
+      activityId: '',
+      date: '',
+      description: '',
+      errors: [],
+      message: null,
+    });
+  }
+
+  /**
+   * @name cancelModal
+   * @summary reset state and close modal
+   */
+  cancelModal = (event) => {
     event.preventDefault();
+    this.resetState();
     this.props.closeModal();
   }
 
   renderValidationError = (field, replaceWord) => {
     if (this.state.errors.indexOf(field) >= 0) {
-      return (
-        <span className='validate__errors'>
-          {capitalizeString(replaceWord || field)} is required.
-        </span>
-      );
+      return `${capitalizeString(replaceWord || field)} is required`;
     }
+    return '';
   }
 
   render() {
-    const { selectValue } = this.state;
+    const { selectValue, message } = this.state;
     const { categories } = this.props;
 
     return (
@@ -90,16 +128,20 @@ class LogActivityForm extends Component {
           handleChange={this.handleChange}
           value={this.state.date}
         />
-        {this.renderValidationError('date')}
+        <span className='validate__errors'>
+          {this.renderValidationError('date')}
+        </span>
         <Select
           name='activityId'
           placeholder='Select Category'
           options={categories}
           title='Activity Category'
-          value={this.state.selectValue}
+          value={this.state.activityId}
           handleChange={this.handleChange}
         />
-        {this.renderValidationError('activityId', 'Category')}
+        <span className='validate__errors'>
+          {this.renderValidationError('activityId', 'Category')}
+        </span>
         {
           selectValue === 'eef0e594-43cd-11e8-87a7-9801a7ae0329' ?
             <SingleInput type='number' name='text' title='# of interviewees' /> : ''
@@ -114,7 +156,9 @@ class LogActivityForm extends Component {
           handleChange={this.handleChange}
           value={this.state.description}
         />
-        {this.renderValidationError('description')}
+        <span className='validate__errors'>
+          {this.renderValidationError('description')}
+        </span>
         <div>
           <Buttons
             name='fellowButtonSubmit'
@@ -129,13 +173,20 @@ class LogActivityForm extends Component {
             onClick={this.cancelModal}
           />
         </div>
+        {
+          message ? <SnackBar message={message} /> : ''
+        }
       </form>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  message: state.myActivities.message,
+});
+
 const mapDispatchToProps = dispatch => ({
   createActivity: activity => dispatch(createActivity(activity)),
 });
 
-export default connect(null, mapDispatchToProps)(LogActivityForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LogActivityForm);
