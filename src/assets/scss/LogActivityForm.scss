@@ -3,3 +3,8 @@
   margin-left: 29%;
   color: #c93636;
 }
+
+.submitButton.disabled {
+  opacity: 0.50;
+  cursor: not-allowed;
+}

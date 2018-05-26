@@ -168,7 +168,7 @@ class LogActivityForm extends Component {
           <Buttons
             name='fellowButtonSubmit'
             value='Log'
-            className='submitButton'
+            className={`submitButton ${message && message.type === 'info' ? 'disabled' : ''}`}
             onClick={this.handleAddEvent}
           />
           <Buttons
