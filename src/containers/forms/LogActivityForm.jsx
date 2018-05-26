@@ -67,6 +67,11 @@ class LogActivityForm extends Component {
    */
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+    // if input value is not empty remove it from error list
+    if (!this.state[event.target.name]) {
+      const errors = this.state.errors.filter(error => !error.includes(event.target.name));
+      this.setState({ errors });
+    }
   }
 
   handleAddEvent = (event) => {
