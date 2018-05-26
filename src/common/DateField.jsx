@@ -14,6 +14,7 @@ const DateField = props => (
       name='date'
       type='date'
       onChange={props.handleChange}
+      value={props.value}
     />
   </div>
 );
@@ -26,5 +27,6 @@ const DateField = props => (
   */
 DateField.propTypes = {
   handleChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
 };
 export default DateField;
