@@ -1,6 +1,6 @@
 .snackbar {
   visibility: hidden;
-  min-width: 22rem;
+  min-width: 20rem;
   margin-left: -11rem;
   background-color: #333;
   color: #fff;
@@ -59,4 +59,32 @@ However, delay the fade out process for 2.5 seconds */
 
 .snackbar.error {
   background-color: $red;
+}
+
+.snackbar.show.error {
+  background-color: $red;
+}
+
+.close-svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  fill: $lightAccent;
+  margin: auto;
+  text-align: center;
+}
+
+.snackbar__button {
+  background-color: $red;
+  border: 0;
+  margin-top: 0.4rem;
+  float: right;
+}
+
+.snackbar__button:hover {
+  cursor: pointer;
+}
+
+.snackbar__text {
+  display: inline-block;
+  text-align: center;
 }
