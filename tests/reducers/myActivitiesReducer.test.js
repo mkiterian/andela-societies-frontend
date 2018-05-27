@@ -20,19 +20,22 @@ describe('myActivitiesReducer', () => {
       requesting: true,
     })).toEqual({
       requesting: true,
-      failed: false,
       activities: [],
+      message: null,
+      error: null,
     });
   });
 
   it('should handle FETCH_MY_ACTIVITIES_FAILURE', () => {
+    const error = new Error('Request failed with status code 401');
     expect(myActivitiesReducer(initialState, {
       type: FETCH_MY_ACTIVITIES_FAILURE,
-      failed: true,
+      error,
     })).toEqual({
       requesting: false,
-      failed: true,
       activities: [],
+      message: null,
+      error,
     });
   });
 
@@ -42,7 +45,8 @@ describe('myActivitiesReducer', () => {
       activities,
     })).toEqual({
       requesting: false,
-      failed: false,
+      error: null,
+      message: null,
       activities,
     });
   });
