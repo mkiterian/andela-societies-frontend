@@ -3,7 +3,7 @@ const initialState = {
   myActivities: {
     requesting: false,
     activities: [],
-    error: {},
+    error: null,
     message: null,
   },
   societyInfo: {

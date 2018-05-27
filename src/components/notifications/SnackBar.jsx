@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import CloseIcon from '../svgIcons/notificationIcons/Close';
 
 class SnackBar extends Component {
   /**
@@ -45,6 +46,11 @@ class SnackBar extends Component {
     };
   }
 
+  handleClick = (event) => {
+    event.preventDefault();
+    this.setState({ show: false });
+  }
+
   /**
    * @name showClass
    * @summary applies css styling to displayed message
@@ -61,11 +67,18 @@ class SnackBar extends Component {
 
   render() {
     const { message, show } = this.state;
-    return (
-      <div className={`${show ? this.showClass() : ''}`}>
-        {show && message.text}
+    return show ? (
+      <div className={this.showClass()}>
+        <div className='snackbar__text'>{message.text}</div>
+        {
+          message.type === 'error' ?
+            <button className='snackbar__button' onClick={this.handleClick}>
+              <CloseIcon />
+            </button>
+            : null
+        }
       </div>
-    );
+    ) : '';
   }
 }
 

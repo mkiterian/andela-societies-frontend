@@ -54,7 +54,7 @@ const myActivities = (state = initialState.myActivities, action) => {
       error: action.error,
       message: {
         type: 'error',
-        text: 'Failed to log activity',
+        text: action.error.response ? action.error.response.data : 'Network Error',
       },
     };
   default:
