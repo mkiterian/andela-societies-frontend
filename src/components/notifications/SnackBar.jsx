@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from '../svgIcons/notificationIcons/Close';
+import ErrorIcon from '../svgIcons/notificationIcons/Error';
 
 class SnackBar extends Component {
   /**
@@ -62,20 +63,22 @@ class SnackBar extends Component {
       setTimeout(() => { this.setState({ show: false }); }, 3000);
     }
 
-    return message ? `snackbar show ${message.type}` : '';
+    return message ? `snackbar snackbar--show ${message.type}` : '';
   };
 
   render() {
     const { message, show } = this.state;
     return show ? (
       <div className={this.showClass()}>
+        {
+          message.type === 'error' && <span className='snackbar__error'><ErrorIcon /></span>
+        }
         <div className='snackbar__text'>{message.text}</div>
         {
-          message.type === 'error' ?
+          message.type === 'error' &&
             <button className='snackbar__button' onClick={this.handleClick}>
               <CloseIcon />
             </button>
-            : null
         }
       </div>
     ) : '';
