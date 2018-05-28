@@ -1,10 +1,8 @@
 .snackbar {
   visibility: hidden;
   min-width: 20rem;
-  margin-left: -11rem;
-  background-color: #333;
+  margin-left: -10rem;
   color: #fff;
-  text-align: center;
   border-radius: 0.2rem;
   padding: 1rem;
   position: fixed;
@@ -13,12 +11,14 @@
   height: 2.6rem;
   bottom: 1.8rem;
   text-align: center;
-  vertical-align: middle;
   line-height: 2.6rem;
   font-size: 0.85em;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }
 
-.snackbar.show {
+.snackbar--show {
   visibility: visible;
 
   -webkit-animation: fadein 0.5s;
@@ -59,18 +59,18 @@
   text-align: center;
 }
 
-.snackbar__button {
+.snackbar__button, {
   background-color: $red;
   border: 0;
-  margin-top: 0.4rem;
-  float: right;
 }
 
 .snackbar__button:hover {
   cursor: pointer;
 }
 
-.snackbar__text {
-  display: inline-block;
-  text-align: center;
+.snackbar__error > svg {
+  width: 2rem;
+  height: 2rem;
+  fill: $lightAccent;
+  margin-top: 0.3rem;
 }
