@@ -2,7 +2,7 @@ import validate from '../../src/helpers/validate';
 
 describe('input validation helper', () => {
   const formData = {
-    activityId: 'as78a7s8asasas89',
+    activityTypeId: 'as78a7s8asasas89',
     date: '',
     description: '',
   };

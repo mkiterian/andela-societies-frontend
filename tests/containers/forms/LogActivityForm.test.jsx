@@ -14,7 +14,7 @@ const infoMessage = {
 };
 
 const defaultState = {
-  activityId: '',
+  activityTypeId: '',
   date: '',
   description: '',
   errors: [],
@@ -121,7 +121,7 @@ describe('<LogActivityForm />', () => {
     />);
     const instance = mounted.instance();
     instance.setState({
-      activityId: 'asd78sad8ads8ad7',
+      activityTypeId: 'asd78sad8ads8ad7',
       date: '2018-12-12',
     }, () => {
       instance.resetState();

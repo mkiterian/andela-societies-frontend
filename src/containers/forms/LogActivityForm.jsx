@@ -33,7 +33,7 @@ class LogActivityForm extends Component {
     // clear form fields if activity was logged successfully
     if (nextProps.message && nextProps.message.type === 'success') {
       return {
-        activityId: '',
+        activityTypeId: '',
         date: '',
         description: '',
         errors: [],
@@ -52,7 +52,7 @@ class LogActivityForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activityId: '',
+      activityTypeId: '',
       date: '',
       description: '',
       errors: [],
@@ -76,9 +76,9 @@ class LogActivityForm extends Component {
 
   handleAddEvent = (event) => {
     event.preventDefault();
-    const { activityId, date, description } = this.state;
+    const { activityTypeId, date, description } = this.state;
     const activity = {
-      activityId,
+      activityTypeId,
       date,
       description,
     };
@@ -97,7 +97,7 @@ class LogActivityForm extends Component {
    */
   resetState = () => {
     this.setState({
-      activityId: '',
+      activityTypeId: '',
       date: '',
       description: '',
       errors: [],
@@ -137,15 +137,15 @@ class LogActivityForm extends Component {
           {this.renderValidationError('date')}
         </span>
         <Select
-          name='activityId'
+          name='activityTypeId'
           placeholder='Select Category'
           options={categories}
           title='Activity Category'
-          value={this.state.activityId}
+          value={this.state.activityTypeId}
           handleChange={this.handleChange}
         />
         <span className='validate__errors'>
-          {this.renderValidationError('activityId', 'Category')}
+          {this.renderValidationError('activityTypeId', 'Category')}
         </span>
         {
           selectValue === 'eef0e594-43cd-11e8-87a7-9801a7ae0329' ?

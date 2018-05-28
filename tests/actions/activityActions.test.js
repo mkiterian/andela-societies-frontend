@@ -20,7 +20,7 @@ import config from '../../config';
 const mockStore = configureMockStore([thunk]);
 
 const formData = {
-  activityId: 'as78a7s8asasas89',
+  activityTypeId: 'as78a7s8asasas89',
   date: '2018-06-10',
   description: 'activity description',
 };
