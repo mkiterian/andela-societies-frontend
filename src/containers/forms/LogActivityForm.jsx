@@ -179,7 +179,7 @@ class LogActivityForm extends Component {
           />
         </div>
         {
-          message ? <SnackBar message={message} /> : ''
+          message && <SnackBar message={message} />
         }
       </form>
     );
