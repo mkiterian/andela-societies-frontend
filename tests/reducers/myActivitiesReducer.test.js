@@ -79,7 +79,7 @@ describe('myActivitiesReducer', () => {
       requesting: false,
       activities: [],
       message: {
-        text: 'Network Error',
+        text: 'An error has occurred',
         type: 'error',
       },
       error,

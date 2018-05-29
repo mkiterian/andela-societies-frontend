@@ -20,11 +20,11 @@ const DateField = props => (
 );
 
 /**
-    * @name propTypes
-    * @type {PropType}
-    * @param {Object} propTypes - React PropTypes
-    * @property {String} name - The name of the textArea
-  */
+* @name propTypes
+* @type {PropType}
+* @param {Object} propTypes - React PropTypes
+* @property {String} name - The name of the textArea
+*/
 DateField.propTypes = {
   handleChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,

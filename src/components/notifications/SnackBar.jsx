@@ -27,7 +27,7 @@ class SnackBar extends Component {
   /**
    * @name getDerivedStateFromProps
    * @summary react lifecycle method to update state with message and whether to display the message
-   * @return {String} css classes
+   * @return {Object} state
    */
   static getDerivedStateFromProps = (nextProps, prevState) => {
     if (nextProps.message.text !== prevState.message.text) {
