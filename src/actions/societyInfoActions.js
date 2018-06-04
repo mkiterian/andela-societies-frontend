@@ -5,7 +5,7 @@ import {
   FETCH_SOCIETY_INFO_SUCCESS,
   FETCH_SOCIETY_INFO_FAILURE,
 } from '../types';
-import config from '../../config';
+// import config from '../../config';
 
 /**
  * @function societyInfoGetRequest
@@ -49,7 +49,7 @@ export const societyInfoGetFailure = error => (
 export const fetchSocietyInfo = name => (
   (dispatch) => {
     dispatch(societyInfoGetRequest());
-    return axios.get(`${config.API_BASE_URL}/societies?name=${name}`)
+    return axios.get(`https://private-ae5c2-andelasocietiesapi.apiary-mock.com/api/v1/societies?name=${name}`)
       .then((response) => {
         dispatch(societyInfoGetSuccess(response.data.societyDetails));
       })

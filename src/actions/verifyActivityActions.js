@@ -5,7 +5,7 @@ import {
   VERIFY_ACTIVITY_FAILURE,
   VERIFY_ACTIVITY_REQUEST,
 } from '../types';
-import config from '../../config';
+// import config from '../../config';
 
 /**
  * @function verifyActivityRequest
@@ -48,7 +48,7 @@ export const verifyActivity = (isApproved, activityId) => (
   (dispatch) => {
     dispatch(verifyActivityRequest());
     return http.put(
-      `${config.API_BASE_URL}/logged-activities/${activityId}`,
+      `https://private-ae5c2-andelasocietiesapi.apiary-mock.com/api/v1/logged-activities/${activityId}`,
       { status: isApproved ? 'pending' : 'rejected' },
     )
       .then((response) => {
